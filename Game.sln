@@ -1,24 +1,62 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jMetro", "jMetro", "{A06B43ED-EAF7-473D-8ED8-8B4710548331}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{162EDDDC-A846-45E3-8B39-0A2C22E98506}"
 	ProjectSection(SolutionItems) = preProject
-		class.js = class.js
-		dialog.html = dialog.html
 		index.html = index.html
-		jMetro.js = jMetro.js
-		UnitTest\spec\jMetroSpec.js = UnitTest\spec\jMetroSpec.js
-		jquery.colorbox.js = jquery.colorbox.js
-		jquery.js = jquery.js
-		..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.css = ..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.css
-		..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.js = ..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.js
-		jquery.mobile.css = jquery.mobile.css
-		jquery.mobile.metro.theme.css = jquery.mobile.metro.theme.css
-		UnitTest\UnitTest.html = UnitTest\UnitTest.html
+		Readme.rtf = Readme.rtf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{080B9DA3-625D-44F9-B6A6-F3E9B563E7CE}"
+	ProjectSection(SolutionItems) = preProject
+		css\styles.css = css\styles.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{134BDA43-FA7D-44A7-9DFB-DFFB4C23BA01}"
+	ProjectSection(SolutionItems) = preProject
+		img\ball.png = img\ball.png
+		img\bg.png = img\bg.png
+		img\circle.png = img\circle.png
+		img\polygon.png = img\polygon.png
+		img\rectangle.png = img\rectangle.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{41F4A73E-849D-4C62-8249-5422A5D7AF3A}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\assets.js = scripts\assets.js
+		scripts\bitmap.js = scripts\bitmap.js
+		scripts\box2dUtil.js = scripts\box2dUtil.js
+		scripts\dispatcher.js = scripts\dispatcher.js
+		scripts\entities.js = scripts\entities.js
+		scripts\game.js = scripts\game.js
+		scripts\maths.js = scripts\maths.js
+		scripts\namespace.js = scripts\namespace.js
+		scripts\soundController.js = scripts\soundController.js
+		scripts\transform.js = scripts\transform.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sound", "sound", "{21313B47-417C-4456-8E35-7C2564D92894}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "thirdparty", "thirdparty", "{B22AFA1B-24A8-4B3D-B118-4B7F42E4E925}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\thirdparty\Box2dWeb-2.1.a.3.js = scripts\thirdparty\Box2dWeb-2.1.a.3.js
+		scripts\thirdparty\class.js = scripts\thirdparty\class.js
+		scripts\thirdparty\jquery.js = scripts\thirdparty\jquery.js
+		scripts\thirdparty\modernizr2.js = scripts\thirdparty\modernizr2.js
+		scripts\thirdparty\PxLoader.js = scripts\thirdparty\PxLoader.js
+		scripts\thirdparty\PxLoaderImage.js = scripts\thirdparty\PxLoaderImage.js
+		scripts\thirdparty\PxLoaderSound.js = scripts\thirdparty\PxLoaderSound.js
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{080B9DA3-625D-44F9-B6A6-F3E9B563E7CE} = {162EDDDC-A846-45E3-8B39-0A2C22E98506}
+		{134BDA43-FA7D-44A7-9DFB-DFFB4C23BA01} = {162EDDDC-A846-45E3-8B39-0A2C22E98506}
+		{41F4A73E-849D-4C62-8249-5422A5D7AF3A} = {162EDDDC-A846-45E3-8B39-0A2C22E98506}
+		{21313B47-417C-4456-8E35-7C2564D92894} = {162EDDDC-A846-45E3-8B39-0A2C22E98506}
+		{B22AFA1B-24A8-4B3D-B118-4B7F42E4E925} = {41F4A73E-849D-4C62-8249-5422A5D7AF3A}
 	EndGlobalSection
 EndGlobal
