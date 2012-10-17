@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jMetro", "jMetro", "{A06B43ED-EAF7-473D-8ED8-8B4710548331}"
+	ProjectSection(SolutionItems) = preProject
+		class.js = class.js
+		dialog.html = dialog.html
+		index.html = index.html
+		jMetro.js = jMetro.js
+		UnitTest\spec\jMetroSpec.js = UnitTest\spec\jMetroSpec.js
+		jquery.colorbox.js = jquery.colorbox.js
+		jquery.js = jquery.js
+		..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.css = ..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.css
+		..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.js = ..\jquery.mobile-1.0.1\jquery.mobile-1.0.1.js
+		jquery.mobile.css = jquery.mobile.css
+		jquery.mobile.metro.theme.css = jquery.mobile.metro.theme.css
+		UnitTest\UnitTest.html = UnitTest\UnitTest.html
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
