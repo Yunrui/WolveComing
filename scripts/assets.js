@@ -128,6 +128,18 @@
         this.addImage('polygon');
         this.addImage('rectangle');
         this.addImage('bg');
+        this.addImage('bee');
+        this.addImage('beetle');
+        this.addImage('bird');
+        this.addImage('bull');
+        this.addImage('donkey');
+        this.addImage('elephant');
+        this.addImage('lion');
+        this.addImage('panda');
+        this.addImage('pig');
+        this.addImage('rabbit');
+        this.addImage('sheep');
+        this.addImage('whale');
 
         //sounds
         this.addSound('bumper1');

@@ -33,6 +33,9 @@
         // Begin 
 
         var self = this;
+        var next = app.combine.next();
+        $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
+
         $("#debug").bind ("click", (function (e) {
             var
                 offset = $("#debug").offset(),
@@ -42,21 +45,30 @@
                 y = indexY * 100 + 50,
                 found = false,
                 entity,
-                position;
+                position,
+                goDeep;
 
             if (!(self.entities[indexX][indexY] instanceof app.entity.GameEntity)) {
 
-                var insertEntity = new app.entity.Grass(x, y);
-                // step one: find related
-                var group = self.findGroup(indexX, indexY, insertEntity);
-                
-                if (group.length >= 2) {
-                    // step two: remove related
-                    self.removeEntities(group);
-                }
+                entity = next;
 
-                // step three: insert advanced
-                self.addEntity(indexX, indexY, new app.entity.Grass(x, y));
+                do {
+                    // step one: find related
+                    var group = self.findGroup(indexX, indexY, entity);
+                    goDeep = false;
+                    
+                    if (group.length >= 2 && entity.promotion !== undefined) {
+                        // step two: remove related
+                        self.removeEntities(group);
+                        entity = entity.promotion;
+                        goDeep = true;
+                    }
+                } while (goDeep);
+
+                self.addEntity(indexX, indexY, new app.entity.Animal(x, y, entity));
+                
+                next = app.combine.next();
+                $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
             }
         }));
         // End

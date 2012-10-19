@@ -12,6 +12,11 @@
 <body>
     <div id="container">
         <div id="gameContainer">
+            <div>
+                <label>Score:</label>
+                <label id="score">0000</label>
+                <img id="nextEntity" src="img/beetle.png" />
+            </div>
             <canvas id="surface" width="600" height="600"></canvas>
             <canvas id="debug" width="600" height="600"></canvas>
             <div id = "debugContainer">
@@ -34,7 +39,9 @@
     <script src="scripts/box2dUtil.js"></script>
     <script src="scripts/dispatcher.js"></script>
     <script src="scripts/transform.js"></script>
+    <script src="scripts/config.js"></script>
     <script src="scripts/entities.js"></script>
+    <script src="scripts/combine.js"></script>
     <script src="scripts/game.js"></script>
 </body>
 </html>

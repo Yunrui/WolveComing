@@ -9,4 +9,5 @@ window['app'] = app;
 app.assets = app.assets || {};
 app.util = app.util || {};
 app.entity = app.entity || {};
+app.config = app.config || {};
 app.game = app.game || {};
