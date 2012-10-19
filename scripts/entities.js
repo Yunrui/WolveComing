@@ -351,14 +351,24 @@
 
     // Begin
 
-	var SquareBumper = GameEntity.extend({
+	var Grass = GameEntity.extend({
 	    init: function (positionX, positionY, scale) {
 	        var square = app.util.Box2dUtil.createBox(new b2Vec2(positionX, positionY), 100, 100, 0, 1, true);
 	        this._super(square, app.assets.images['ball']);
+	        this.type = "grass";
 	    }
 	});
 
-	app.entity.SquareBumper = SquareBumper;
+	var Stack = GameEntity.extend({
+	    init: function (positionX, positionY, scale) {
+	        var square = app.util.Box2dUtil.createBox(new b2Vec2(positionX, positionY), 100, 100, 0, 1, true);
+	        this._super(square, app.assets.images['circle']);
+	        this.type = "stack";
+	    }
+	});
+
+	app.entity.Grass = Grass;
+	app.entity.Stack = Stack;
     // End
 
 	app.entity.EntityBase = EntityBase;

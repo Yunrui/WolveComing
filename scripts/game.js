@@ -12,8 +12,11 @@
         this.screenHeight = this.canvas.height;
         this.totalGameTime = 0;
 
-        // create a list of entities to be updated and drawn
-        this.entities = [];
+        // create a two dimentional array of entities to be updated and drawn
+        this.entities = new Array(6);
+        for (var i = 0; i < 6; i++) {
+            this.entities[i] = new Array(6);
+        }
 
         // create a Box2d world that will handle the physics
         app.util.Box2dUtil.createWorld(new b2Vec2(0, 0));
@@ -27,36 +30,33 @@
 
         app.util.Box2dUtil.toggleDebugDraw(debugContext, true);
 
-        // create entities
-        this.initializeGame();
-
         // Begin 
 
         var self = this;
         $("#debug").bind ("click", (function (e) {
             var
                 offset = $("#debug").offset(),
-                x = Math.floor((e.pageX - offset.left) / 100) * 100 + 50,
-                y = Math.floor((e.pageY - offset.top) / 100) * 100 + 50,
+                indexX = Math.floor((e.pageX - offset.left) / 100),
+                indexY = Math.floor((e.pageY - offset.top) / 100),
+                x = indexX * 100 + 50,
+                y = indexY * 100 + 50,
                 found = false,
                 entity,
                 position;
 
-            
-            for (var key in self.entities) {
-                entity = self.entities[key];
-                position = entity.getPosition();
+            if (!(self.entities[indexX][indexY] instanceof app.entity.GameEntity)) {
 
-                if (x == parseInt(position.x) && y == parseInt(position.y)) {
-                    found = true;
-                }
-            }
-
-            if (!found) {
+                var insertEntity = new app.entity.Grass(x, y);
                 // step one: find related
-                // step two: remove related
+                var group = self.findGroup(indexX, indexY, insertEntity);
+                
+                if (group.length >= 2) {
+                    // step two: remove related
+                    self.removeEntities(group);
+                }
+
                 // step three: insert advanced
-                self.addEntity(new app.entity.SquareBumper(x, y));
+                self.addEntity(indexX, indexY, new app.entity.Grass(x, y));
             }
         }));
         // End
@@ -66,86 +66,70 @@
         app.util.dispatcher.start();
     }
 
-    // This method is where we create all the entities for the demo.
-    // For your game you may have a more complicated creation structure.
-    // Also note that the order that elements are in the array corresponds 
-    // to the order in which they are drawn.
-    Game.prototype.initializeGame = function(){
+    Game.prototype.findGroup = function (x, y, entity) {
+        var
+            type = entity.type,
+            map = new Array(6);
 
-        /*
-        // walls
-        this.addEntity(new app.entity.OuterWall(-5, this.screenHeight / 2, 10, this.screenHeight / 1.5));
-        this.addEntity(new app.entity.OuterWall(this.screenWidth + 5, this.screenHeight / 2, 10, this.screenHeight / 1.5));
-        this.addEntity(new app.entity.OuterWall(this.screenWidth / 2, -5, this.screenWidth / 2, 10));
-        this.addEntity(new app.entity.OuterWall(this.screenWidth / 2, this.screenHeight + 5, this.screenWidth / 2, 10));
+        for (var i = 0; i < 6; i++) {
+             map[i] = new Array(6);
+        }
 
-        var w = new app.entity.OuterWall(120, 45, 265, 10);
-        w.setRotation(-23);
-        this.addEntity(w);
-        var w = new app.entity.OuterWall(120, 435, 265, 10);
-        w.setRotation(23);
-        this.addEntity(w);
-        var w = new app.entity.OuterWall(680, 45, 265, 10);
-        w.setRotation(23);
-        this.addEntity(w);
-        var w = new app.entity.OuterWall(680, 435, 265, 10);
-        w.setRotation(-23);
-        this.addEntity(w);
+        map[x][y] = true;
+       
 
-        // background
-        var b = new app.entity.Background(this.screenWidth, this.screenHeight);
-        this.addEntity(b);
+        return this.findNeighbor(x, y, map, entity);
+    }
 
-        // bumpers
-        var s1 = new app.entity.RectangleBumper(675, 100);
-        s1.setRotation(23);
-        this.addEntity(s1);
+    Game.prototype.findNeighbor = function (x, y, map, entity) {
+        var
+            neighbor = [];
 
-        var t1 = new app.entity.TriangleBumper(575, 250);
-        t1.setRotation(25);
-        this.addEntity(t1);
+        // Left node
+        if (x > 0) {
+            neighbor = neighbor.concat(this.findNeighborCore(x - 1, y, entity, map));
+        }
 
-        var t2 = new app.entity.TriangleBumper(200, 350);
-        this.addEntity(t2);
+        if (x < 5) {
+            neighbor = neighbor.concat(this.findNeighborCore(x + 1, y, entity, map));
+        }
 
-        var c1 = new app.entity.CircleBumper(240, 175, 1);
-        this.addEntity(c1);
+        if (y > 0) {
+            neighbor = neighbor.concat(this.findNeighborCore(x, y - 1, entity, map));
+        }
 
-        var c2 = new app.entity.CircleBumper(400, 350, 1);
-        this.addEntity(c2);
+        if (y < 5) {
+            neighbor = neighbor.concat(this.findNeighborCore(x, y + 1, entity, map));
+        }
 
-        var c3 = new app.entity.CircleBumper(450, 150, 0.6);
-        this.addEntity(c3);
+        return neighbor;
+    }
 
-        // pinball, and apply impulse to start moving
-        var p = new app.entity.Pinball();
-        p.setPosition(650, 400);
-        p.applyImpulse(new b2Vec2(0, -300), p.getPosition());
-        this.addEntity(p);
+    Game.prototype.findNeighborCore = function (x, y, entity, map) {
 
-        // start some background music
-        app.util.soundController.playSoundTrack('background');
-        */
+        var
+            neighbor = [],
+            tmp;
+            
+        if (map[x][y] !== true && this.entities[x][y] instanceof app.entity.GameEntity) {
+            // mark that we have already test this point
+            map[x][y] = true;
 
-        /*
-        for (var i = 50; i < 600; i += 100)
-        {
-            for (var j = 50; j < 600; j += 100) {
-                var s = new app.entity.SquareBumper(i, j);
-                this.addEntity(s);
+            if (entity.type === this.entities[x][y].type) {
+                neighbor.push({ indexX: x, indexY: y });
+                neighbor = neighbor.concat(this.findNeighbor(x, y, map, entity));
             }
         }
-        */
+        return neighbor;
+    }
+
+    Game.prototype.addEntity = function(x, y, entity){
+        this.entities[x][y] = entity;
     };
 
-    Game.prototype.addEntity = function(entity){
-        this.entities.push(entity);
-    };
-
-    Game.prototype.removeEntity = function(entity) {
-        var index = this.entities.indexOf(entity);
-        if (index >= 0) {
-            this.entities.splice(index, 1);
+    Game.prototype.removeEntities = function (group) {
+        for (var i = 0; i < group.length; i++) {
+            this.entities[group[i].indexX][group[i].indexY] = null;
         }
     };
 
@@ -160,7 +144,11 @@
         // update each entity, passing in a time object that holds the delta time since last update,
         // the current time, and the previous update time
         for (var i = 0; i < this.entities.length; i++) {
-            this.entities[i].update(time);
+            for (var j = 0; j < this.entities[i].length; j++) {
+                if (this.entities[i][j] instanceof app.entity.GameEntity) {
+                    this.entities[i][j].update(time);
+                }
+            }
         }
 
         // after update, draw everything
@@ -173,8 +161,12 @@
 
         var entity;
         for (var i = 0; i < this.entities.length; i++) {
-            entity = this.entities[i];
-            if (entity.isVisible()) entity.draw(this.context);
+            for (var j = 0; j < this.entities[i].length; j++) {
+                if (this.entities[i][j] instanceof app.entity.GameEntity) {
+                    entity = this.entities[i][j];
+                    if (entity.isVisible()) entity.draw(this.context);
+                }
+            }
         }
     };
 
