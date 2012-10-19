@@ -348,17 +348,6 @@
 		}
 	});
 
-
-    // Begin
-
-	var Grass = GameEntity.extend({
-	    init: function (positionX, positionY, scale) {
-	        var square = app.util.Box2dUtil.createBox(new b2Vec2(positionX, positionY), 100, 100, 0, 1, true);
-	        this._super(square, app.assets.images['beetle']);
-	        this.type = "grass";
-	    }
-	});
-
 	var Animal = GameEntity.extend({
 	    init: function (positionX, positionY, config) {
 	        var square = app.util.Box2dUtil.createBox(new b2Vec2(positionX, positionY), 100, 100, 0, 1, true);
@@ -367,10 +356,7 @@
 	    }
 	});
 
-	app.entity.Grass = Grass;
 	app.entity.Animal = Animal;
-    // End
-
 	app.entity.EntityBase = EntityBase;
 	app.entity.Sprite = Sprite;
 	app.entity.PhysicsEntity = PhysicsEntity;

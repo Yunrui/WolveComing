@@ -4,83 +4,84 @@
 
     // Why do we need class? All data are static!!!!
     var Config = Class.extend({
-        init: function(type, possibility, imgName, promotion) {
+        init: function(type, possibility, imgName, promotion, score) {
             this.type = type;
             this.possibility = possibility;
             this.imgName = imgName;
             this.promotion = promotion;
+            this.score = score;
         },
     });
 
     var Beetle = Config.extend({
         init: function (promotion) {
-            this._super("beetle", 7500, "beetle", promotion);
+            this._super("beetle", 7500, "beetle", promotion, 0);
         },
     });
 
     var Bee = Config.extend({
         init: function (promotion) {
-            this._super("bee", 1875, "bee", promotion);
+            this._super("bee", 1875, "bee", promotion, 0);
         },
     });
 
     var Bird = Config.extend({
         init: function (promotion) {
-            this._super("bird", 470, "bird", promotion);
+            this._super("bird", 470, "bird", promotion, 2);
         },
     });
 
     var Rabbit = Config.extend({
         init: function (promotion) {
-            this._super("rabbit", 120, "rabbit", promotion);
+            this._super("rabbit", 120, "rabbit", promotion, 4);
         },
     });
 
     var Sheep = Config.extend({
         init: function (promotion) {
-            this._super("sheep", 25, "sheep", promotion);
+            this._super("sheep", 25, "sheep", promotion, 8);
         },
     });
 
     var Pig = Config.extend({
         init: function (promotion) {
-            this._super("pig", 7, "pig", promotion);
+            this._super("pig", 7, "pig", promotion, 16);
         },
     });
 
     var Donkey = Config.extend({
         init: function (promotion) {
-            this._super("donkey", 2, "donkey", promotion);
+            this._super("donkey", 2, "donkey", promotion, 32);
         },
     });
 
     var Panda = Config.extend({
         init: function (promotion) {
-            this._super("panda", 1, "panda", promotion);
+            this._super("panda", 1, "panda", promotion, 64);
         },
     });
 
     var Bull = Config.extend({
         init: function (promotion) {
-            this._super("bull", 0, "bull", promotion);
+            this._super("bull", 0, "bull", promotion, 128);
         },
     });
 
     var Lion = Config.extend({
         init: function (promotion) {
-            this._super("lion", 0, "lion", promotion);
+            this._super("lion", 0, "lion", promotion, 256);
         },
     });
 
     var Elephant = Config.extend({
         init: function (promotion) {
-            this._super("elephant", 0, "elephant", promotion);
+            this._super("elephant", 0, "elephant", promotion, 512);
         },
     });
 
     var Whale = Config.extend({
         init: function (promotion) {
-            this._super("whale", 0, "whale", promotion);
+            this._super("whale", 0, "whale", promotion, 1024);
         },
     });
 

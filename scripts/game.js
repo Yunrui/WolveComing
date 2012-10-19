@@ -10,6 +10,7 @@
         // initialize some basic information about the game world
         this.screenWidth = this.canvas.width;
         this.screenHeight = this.canvas.height;
+        this.fixLength = 100;
         this.totalGameTime = 0;
 
         // create a two dimentional array of entities to be updated and drawn
@@ -28,9 +29,7 @@
             app.util.Box2dUtil.toggleDebugDraw(debugContext, checkbox.checked);
         });
 
-        app.util.Box2dUtil.toggleDebugDraw(debugContext, true);
-
-        // Begin 
+        this.background = new app.entity.Background(600, 600);
 
         var self = this;
         var next = app.combine.next();
@@ -39,10 +38,10 @@
         $("#debug").bind ("click", (function (e) {
             var
                 offset = $("#debug").offset(),
-                indexX = Math.floor((e.pageX - offset.left) / 100),
-                indexY = Math.floor((e.pageY - offset.top) / 100),
-                x = indexX * 100 + 50,
-                y = indexY * 100 + 50,
+                indexX = Math.floor((e.pageX - offset.left) / self.fixLength),
+                indexY = Math.floor((e.pageY - offset.top) / self.fixLength),
+                x = indexX * self.fixLength + self.fixLength/2,
+                y = indexY * self.fixLength + self.fixLength/2,
                 found = false,
                 entity,
                 position,
@@ -69,9 +68,9 @@
                 
                 next = app.combine.next();
                 $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
+                $("#score").text(parseInt($("#score").text()) + entity.score);
             }
         }));
-        // End
 
         // after initialization, hook up to and start the dispatcher to begin calling updates
         app.util.dispatcher.register(this);
@@ -170,6 +169,8 @@
     Game.prototype.draw = function() {
         // clear our drawing context for a new draw
         this.context.clearRect(0, 0, this.screenWidth, this.screenHeight);
+
+        this.background.draw(this.context);
 
         var entity;
         for (var i = 0; i < this.entities.length; i++) {
