@@ -32,7 +32,6 @@
         */
 
         this.background = new app.entity.Background(600, 600);
-        // this.ball = new app.entity.Devil(0, 0);
 
         var self = this;
         var next = app.combine.next();
@@ -203,8 +202,6 @@
         // update the Box2d physics
         app.util.Box2dUtil.updateWorld(time.delta);
 
-        // this.ball.update(time);
-
         // update each entity, passing in a time object that holds the delta time since last update,
         // the current time, and the previous update time
         for (var i = 0; i < this.entities.length; i++) {
@@ -224,7 +221,6 @@
         this.context.clearRect(0, 0, this.screenWidth, this.screenHeight);
 
         this.background.draw(this.context);
-        // this.ball.draw(this.context);
 
         var entity;
         for (var i = 0; i < this.entities.length; i++) {

@@ -393,34 +393,6 @@
 	    },
 	});
 
-	var Devil = GameEntity.extend({
-	    init: function (positionX, positionY) {
-	        var square = app.util.Box2dUtil.createBox(new b2Vec2(positionX, positionY), 100, 100, 0, 1, true);
-	        this._super(square, app.assets.images["ball"]);
-	    },
-
-	    update: function (time) {
-	        this._super();
-
-	        // make sure ball always has a minimum velocity
-            /*
-	        var length = vel.Length();
-	        if (length < 100) {
-	            vel.Normalize();
-	            vel.Multiply(100);
-	            this.setLinearVelocity(vel);
-	        }
-	        else if (length > 400) {
-	            vel.Normalize();
-	            vel.Multiply(400);
-	            this.setLinearVelocity(vel);
-	        }
-            */
-	        var position = this.getPosition();
-	        this.setPosition(position.x + 20, position.y + 20);
-	    },
-	});
-
 	app.entity.Blocker = Blocker;
 	app.entity.Animal = Animal;
 	app.entity.EntityBase = EntityBase;
