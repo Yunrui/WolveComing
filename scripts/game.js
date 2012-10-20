@@ -22,40 +22,45 @@
         // create a Box2d world that will handle the physics
         app.util.Box2dUtil.createWorld(new b2Vec2(0, 0));
 
+        /*
         // set up debug checkbox
         var debugContext = document.getElementById('debug').getContext('2d');
         var checkbox = document.getElementById('debugToggle');
         checkbox.addEventListener('click', function(e){
             app.util.Box2dUtil.toggleDebugDraw(debugContext, checkbox.checked);
         });
+        */
 
         this.background = new app.entity.Background(600, 600);
+        // this.ball = new app.entity.Devil(0, 0);
 
         var self = this;
         var next = app.combine.next();
         $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
 
-        $("#debug").bind ("click", (function (e) {
+        $("#debug").bind("click", (function (e) {
             var
                 offset = $("#debug").offset(),
                 indexX = Math.floor((e.pageX - offset.left) / self.fixLength),
                 indexY = Math.floor((e.pageY - offset.top) / self.fixLength),
-                x = indexX * self.fixLength + self.fixLength/2,
-                y = indexY * self.fixLength + self.fixLength/2,
+                x = indexX * self.fixLength + self.fixLength / 2,
+                y = indexY * self.fixLength + self.fixLength / 2,
                 found = false,
                 entity,
                 position,
                 goDeep;
 
-            if (!(self.entities[indexX][indexY] instanceof app.entity.GameEntity)) {
+            entity = next;
 
-                entity = next;
-
+            if (entity instanceof app.combine.Bomb) {
+                self.removeEntities([{ indexX: indexX, indexY: indexY }]);
+            }
+            else if (!(self.entities[indexX][indexY] instanceof app.entity.Animal)) {
                 do {
                     // step one: find related
                     var group = self.findGroup(indexX, indexY, entity);
                     goDeep = false;
-                    
+
                     if (group.length >= 2 && entity.promotion !== undefined) {
                         // step two: remove related
                         self.removeEntities(group);
@@ -65,11 +70,14 @@
                 } while (goDeep);
 
                 self.addEntity(indexX, indexY, new app.entity.Animal(x, y, entity));
-                
-                next = app.combine.next();
-                $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
-                $("#score").text(parseInt($("#score").text()) + entity.score);
             }
+            else {
+                return;
+            }
+            
+            next = app.combine.next();
+            $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
+            $("#score").text(parseInt($("#score").text()) + entity.score);
         }));
 
         // after initialization, hook up to and start the dispatcher to begin calling updates
@@ -122,7 +130,7 @@
             neighbor = [],
             tmp;
             
-        if (map[x][y] !== true && this.entities[x][y] instanceof app.entity.GameEntity) {
+        if (map[x][y] !== true && this.entities[x][y] instanceof app.entity.Animal) {
             // mark that we have already test this point
             map[x][y] = true;
 
@@ -152,6 +160,8 @@
         // update the Box2d physics
         app.util.Box2dUtil.updateWorld(time.delta);
 
+        // this.ball.update(time);
+
         // update each entity, passing in a time object that holds the delta time since last update,
         // the current time, and the previous update time
         for (var i = 0; i < this.entities.length; i++) {
@@ -171,6 +181,7 @@
         this.context.clearRect(0, 0, this.screenWidth, this.screenHeight);
 
         this.background.draw(this.context);
+        // this.ball.draw(this.context);
 
         var entity;
         for (var i = 0; i < this.entities.length; i++) {

@@ -85,6 +85,12 @@
         },
     });
 
+    var Bomb = Config.extend({
+        init: function (promotion) {
+            this._super("bomb", 30, "bomb", promotion, 0);
+        },
+    });
+
 
     var Combine = function () {
         this.entities = [];
@@ -112,6 +118,7 @@
         this.entities.push(lion);
         this.entities.push(elephant);
         this.entities.push(whale);
+        this.entities.push(new Bomb);
     };
 
     Combine.prototype.next = function () {
@@ -136,4 +143,5 @@
     };
 
     app.combine = new Combine();
+    app.combine.Bomb = Bomb;
 }(app));
