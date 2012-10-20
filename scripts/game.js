@@ -36,24 +36,35 @@
 
         var self = this;
         var next = app.combine.next();
-        $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
+        var second = app.combine.next();
+        var third = app.combine.next();
+        this.updateComingQueue(next, second, third);
 
         $("#debug").bind("click", (function (e) {
             var
                 offset = $("#debug").offset(),
                 indexX = Math.floor((e.pageX - offset.left) / self.fixLength),
                 indexY = Math.floor((e.pageY - offset.top) / self.fixLength),
-                x = indexX * self.fixLength + self.fixLength / 2,
-                y = indexY * self.fixLength + self.fixLength / 2,
+                x = self.calculatePosition(indexX),
+                y = self.calculatePosition(indexY),
                 found = false,
                 entity,
                 position,
-                goDeep;
+                goDeep,
+                rc;
 
             entity = next;
 
             if (entity instanceof app.combine.Bomb) {
                 self.removeEntities([{ indexX: indexX, indexY: indexY }]);
+            }
+            else if (entity instanceof app.combine.Blocker) {
+                // find a random empty place, animation, and then put it there
+                rc = self.findRandomEmptyCell();
+
+                if (rc !== undefined) {
+                    self.addEntity(rc.x, rc.y, new app.entity.Blocker(self.calculatePosition(rc.x), self.calculatePosition(rc.y), entity));
+                }
             }
             else if (!(self.entities[indexX][indexY] instanceof app.entity.Animal)) {
                 do {
@@ -75,14 +86,46 @@
                 return;
             }
             
-            next = app.combine.next();
-            $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
+            next = second;
+            second = third;
+            third = app.combine.next();
+            self.updateComingQueue(next, second, third);
             $("#score").text(parseInt($("#score").text()) + entity.score);
         }));
 
         // after initialization, hook up to and start the dispatcher to begin calling updates
         app.util.dispatcher.register(this);
         app.util.dispatcher.start();
+    }
+
+    Game.prototype.calculatePosition = function (index) {
+        return index * this.fixLength + this.fixLength / 2;
+    }
+
+    Game.prototype.findRandomEmptyCell = function () {
+        //$TODO: optimize and cache empty list later
+        var
+            number = 0,
+            empty = [];
+
+        for (var i = 0; i < this.entities.length; i++) {
+            for (var j = 0; j < this.entities[i].length; j++) {
+                if (this.entities[i][j] === null || this.entities[i][j] === undefined) {
+                    empty.push({ x: i, y: j });
+                }
+            }
+        }
+
+        if (empty.length > 0) {
+            number = parseInt((Math.random() * empty.length));
+            return empty[number];
+        }
+    }
+
+    Game.prototype.updateComingQueue = function (next, second, third) {
+        $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
+        $("#secondEntity").attr("src", "img/" + second.imgName + ".png");
+        $("#thirdEntity").attr("src", "img/" + third.imgName + ".png");
     }
 
     Game.prototype.findGroup = function (x, y, entity) {

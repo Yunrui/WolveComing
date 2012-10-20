@@ -140,6 +140,7 @@
         this.addImage('rabbit');
         this.addImage('sheep');
         this.addImage('whale');
+        this.addImage('blocker');
 
         //sounds
         this.addSound('bumper1');

@@ -356,6 +356,43 @@
 	    }
 	});
 
+    // $TODO: Blocker definitely not an Animal, rename Animal to Sqaure
+	var Blocker = Animal.extend({
+	    init: function (positionX, positionY, config) {
+	        this._super(470, 0, config);
+	        this.positionX = positionX;
+	        this.positionY = positionY;
+	        this.timeInterval = 0;
+	        this.i = 0;
+	        this.j = 0;
+	        this.r = 100;
+	        this.step = .2;
+	    },
+
+	    update: function (time) {
+	        var delta = time.delta;
+	        this.timeInterval += delta;
+
+	        if (this.timeInterval > 0.05) {
+
+	            if (this.i <= 8) {
+	                this.timeInterval = 0;
+	                this.i += this.step;
+
+	                
+	                this.setPosition(this.r * Math.cos(this.i) + 300, this.r * Math.sin(this.i) + 300);
+	            }
+	            else if (this.j < 20) {
+	                var position = this.getPosition();
+
+                    
+
+	                this.setPosition(position.x + (this.positionX - position.x) / 20, position.y + (this.positionY - position.y) / 20);
+	            }
+	        }
+	    },
+	});
+
 	var Devil = GameEntity.extend({
 	    init: function (positionX, positionY) {
 	        var square = app.util.Box2dUtil.createBox(new b2Vec2(positionX, positionY), 100, 100, 0, 1, true);
@@ -384,7 +421,7 @@
 	    },
 	});
 
-	app.entity.Devil = Devil;
+	app.entity.Blocker = Blocker;
 	app.entity.Animal = Animal;
 	app.entity.EntityBase = EntityBase;
 	app.entity.Sprite = Sprite;

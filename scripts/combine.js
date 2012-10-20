@@ -86,9 +86,15 @@
     });
 
     var Bomb = Config.extend({
-        init: function (promotion) {
-            this._super("bomb", 30, "bomb", promotion, 0);
+        init: function () {
+            this._super("bomb", 30, "bomb", undefined, 0);
         },
+    });
+
+    var Blocker = Config.extend({
+        init: function () {
+            this._super("blocker", 50, "blocker", undefined, 0);
+        }
     });
 
 
@@ -118,7 +124,8 @@
         this.entities.push(lion);
         this.entities.push(elephant);
         this.entities.push(whale);
-        this.entities.push(new Bomb);
+        this.entities.push(new Bomb());
+        this.entities.push(new Blocker());
     };
 
     Combine.prototype.next = function () {
@@ -144,4 +151,5 @@
 
     app.combine = new Combine();
     app.combine.Bomb = Bomb;
+    app.combine.Blocker = Blocker;
 }(app));
