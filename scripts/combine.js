@@ -43,27 +43,21 @@
         },
     });
 
-    var Pig = Config.extend({
-        init: function (promotion) {
-            this._super("pig", 7, "pig", promotion, 16);
-        },
-    });
-
     var Donkey = Config.extend({
         init: function (promotion) {
-            this._super("donkey", 2, "donkey", promotion, 32);
+            this._super("donkey", 7, "donkey", promotion, 32);
         },
     });
 
     var Panda = Config.extend({
         init: function (promotion) {
-            this._super("panda", 1, "panda", promotion, 64);
+            this._super("panda", 2, "panda", promotion, 64);
         },
     });
 
     var Bull = Config.extend({
         init: function (promotion) {
-            this._super("bull", 0, "bull", promotion, 128);
+            this._super("bull", 1, "bull", promotion, 128);
         },
     });
 

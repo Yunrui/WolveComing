@@ -13,11 +13,13 @@
         this.fixLength = 100;
         this.totalGameTime = 0;
 
-        // create a two dimentional array of entities to be updated and drawn
-        this.entities = new Array(6);
-        for (var i = 0; i < 6; i++) {
-            this.entities[i] = new Array(6);
-        }
+        this.next;
+        this.second;
+        this.thrid;
+
+        this.background = new app.entity.Background(600, 600);
+
+        this.resetGame();
 
         // create a Box2d world that will handle the physics
         app.util.Box2dUtil.createWorld(new b2Vec2(0, 0));
@@ -31,13 +33,11 @@
         });
         */
 
-        this.background = new app.entity.Background(600, 600);
-
         var self = this;
-        var next = app.combine.next();
-        var second = app.combine.next();
-        var third = app.combine.next();
-        this.updateComingQueue(next, second, third);
+
+        $("#restart").click(function (e) {
+            self.resetGame();
+        });
 
         $("#debug").bind("click", (function (e) {
             var
@@ -52,7 +52,7 @@
                 goDeep,
                 rc;
 
-            entity = next;
+            entity = self.next;
 
             if (entity instanceof app.combine.Bomb) {
                 self.removeEntities([{ indexX: indexX, indexY: indexY }]);
@@ -85,16 +85,32 @@
                 return;
             }
             
-            next = second;
-            second = third;
-            third = app.combine.next();
-            self.updateComingQueue(next, second, third);
+            self.next = self.second;
+            self.second = self.third;
+            self.third = app.combine.next();
+            self.updateComingQueue();
             $("#score").text(parseInt($("#score").text()) + entity.score);
         }));
 
         // after initialization, hook up to and start the dispatcher to begin calling updates
         app.util.dispatcher.register(this);
         app.util.dispatcher.start();
+    }
+
+    Game.prototype.resetGame = function () {
+        // create a two dimentional array of entities to be updated and drawn
+        this.entities = new Array(6);
+        for (var i = 0; i < 6; i++) {
+            this.entities[i] = new Array(6);
+        }
+
+        this.next = app.combine.next();
+        this.second = app.combine.next();
+        this.third = app.combine.next();
+
+        this.updateComingQueue();
+
+        $("#score").text(0);
     }
 
     Game.prototype.calculatePosition = function (index) {
@@ -121,10 +137,10 @@
         }
     }
 
-    Game.prototype.updateComingQueue = function (next, second, third) {
-        $("#nextEntity").attr("src", "img/" + next.imgName + ".png");
-        $("#secondEntity").attr("src", "img/" + second.imgName + ".png");
-        $("#thirdEntity").attr("src", "img/" + third.imgName + ".png");
+    Game.prototype.updateComingQueue = function () {
+        $("#nextEntity").attr("src", "img/" + this.next.imgName + ".png");
+        $("#secondEntity").attr("src", "img/" + this.second.imgName + ".png");
+        $("#thirdEntity").attr("src", "img/" + this.third.imgName + ".png");
     }
 
     Game.prototype.findGroup = function (x, y, entity) {
